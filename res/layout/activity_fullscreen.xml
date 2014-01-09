@@ -1,0 +1,29 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:id="@+id/parent"
+    tools:context=".FullscreenActivity" >
+    
+    <SurfaceView android:id="@+id/surface"
+                 android:layout_width="fill_parent"
+                 android:layout_height="600dip"
+                 android:background="@color/black_overlay">
+        
+        
+    </SurfaceView>    
+  
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+
+     <GridView android:id="@+id/button_grid"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="bottom|center_horizontal"/>   
+    
+    </FrameLayout>
+
+</FrameLayout>
