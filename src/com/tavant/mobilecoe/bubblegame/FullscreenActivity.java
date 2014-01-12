@@ -9,7 +9,7 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.tavant.mobilecoe.renderer.GameView;
+import com.tavant.mobilecoe.bubblegame.renderer.GameView;
 
 /**
  * 
