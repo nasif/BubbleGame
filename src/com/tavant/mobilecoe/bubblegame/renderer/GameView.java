@@ -18,7 +18,7 @@ public class GameView extends GLSurfaceView {
 		super(context, attrs);    
 		renderer=new GameRenderer(context);
 		setEGLContextClientVersion(1);
-		setPreserveEGLContextOnPause(true);
+	//	setPreserveEGLContextOnPause(true);
 		setRenderer(renderer);
 		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
