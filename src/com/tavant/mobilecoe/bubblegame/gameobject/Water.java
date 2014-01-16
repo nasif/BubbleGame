@@ -2,6 +2,7 @@ package com.tavant.mobilecoe.bubblegame.gameobject;
 
 import static android.opengl.GLES10.GL_FLOAT;
 import static android.opengl.GLES10.GL_TEXTURE_2D;
+import static android.opengl.GLES10.GL_TEXTURE_COORD_ARRAY;
 import static android.opengl.GLES10.glEnable;
 import static android.opengl.GLES10.glTexCoordPointer;
 
@@ -15,18 +16,25 @@ import javax.microedition.khronos.opengles.GL10;
 public class Water extends GameObject {
 
 	private  FloatBuffer vertexBuffer;
+	private  FloatBuffer normalBuffer;  // this is for lightining
 	private  ShortBuffer drawListBuffer;
 	private FloatBuffer mTexBuffer;
 	private static final int COORDS_PER_VERTEX = 3;
 	private static float squareCoords[] = {
-		-1.0f,  0.2f, 0.0f,   // top left
-		-1.0f, -0.2f, 0.0f,   // bottom left
-		1.0f, -0.2f, 0.0f,   // bottom right
-		1.0f,  0.2f, 0.0f }; // top right
+		-1.5f,  0.4f, 0.0f,   // top left
+		-1.2f, -0.4f, 0.0f,   // bottom left
+		1.2f, -0.4f, 0.0f,   // bottom right
+		1.5f,  0.4f, 0.0f }; // top right
 
 	private final short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 	float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
 
+	private final float normalchord[]= { // front
+					 0, 1, 0,
+					 0, 1, 0,
+					 0, 1, 0,
+					 0, 1, 0
+		};
 
 	public Water() {
 		ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
@@ -53,28 +61,33 @@ public class Water extends GameObject {
              }
          }
          mTexBuffer.position(0);
+         
+         ByteBuffer buff = ByteBuffer.allocateDirect(normalchord.length * 4);
+         buff.order(ByteOrder.nativeOrder());
+         normalBuffer=buff.asFloatBuffer();
+         normalBuffer.put(normalchord);
+         normalBuffer.position(0);
 	}
 
 	
 
 	public void draw(GL10 gl) {
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+		gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 		gl.glVertexPointer( // point to vertex data:
 				COORDS_PER_VERTEX,
 				GL10.GL_FLOAT, 0, vertexBuffer);
-		gl.glEnable(GL_TEXTURE_2D);
         glTexCoordPointer(2, GL_FLOAT, 0, mTexBuffer);
-		gl.glDrawElements(  // draw shape:
+        gl.glNormalPointer(GL10.GL_FLOAT, 0, normalBuffer);
+        gl.glDrawElements(  // draw shape:
 				GL10.GL_TRIANGLES,
 				drawOrder.length, GL10.GL_UNSIGNED_SHORT,
 				drawListBuffer);
-
-		// Disable vertex array drawing to avoid
-		// conflicts with shapes that don't use it
-		gl.glDisable(GL_TEXTURE_2D);
-		
+        gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		//gl.glDisable(GL10.GL_CULL_FACE);
+		gl.glDisable(GL_TEXTURE_2D);
 	}
 
 }
