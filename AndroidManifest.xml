@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+        >
         <activity
             android:name="com.tavant.mobilecoe.bubblegame.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
